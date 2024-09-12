@@ -33,6 +33,7 @@ public class SujetServiceImpl implements SujetService {
         log.debug("Request to update Sujet : {}", sujetDTO);
         return findOne(sujetDTO.getId()).map(sujet -> {
             sujet.setTitle(sujetDTO.getTitle());
+            sujet.setForum(sujetDTO.getForum());
             return save(sujet);
         }).orElseThrow(() -> new IllegalArgumentException("No sujet found with id " + sujetDTO.getId()));
     }
@@ -57,5 +58,13 @@ public class SujetServiceImpl implements SujetService {
     public void delete(Long id) {
         log.debug("Request to delete Sujet : {}", id);
         sujetRepository.deleteById(id);
+    }
+
+    @Override
+    public List<SujetDTO> findSujetByForumId(Long forumId) {
+        log.debug("Request to get Sujets by Forum : {}", forumId);
+        return sujetRepository.findSujetByForumId(forumId).stream().map(sujet -> {
+            return sujetMapper.toDto(sujet);
+        }).toList();
     }
 }

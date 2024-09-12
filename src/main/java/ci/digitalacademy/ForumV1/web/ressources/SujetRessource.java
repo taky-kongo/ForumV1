@@ -1,6 +1,8 @@
 package ci.digitalacademy.ForumV1.web.ressources;
 
+import ci.digitalacademy.ForumV1.services.ForumService;
 import ci.digitalacademy.ForumV1.services.SujetService;
+import ci.digitalacademy.ForumV1.services.dto.ForumDTO;
 import ci.digitalacademy.ForumV1.services.dto.SujetDTO;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -18,6 +20,7 @@ import java.util.Optional;
 public class SujetRessource {
 
     private final SujetService sujetService;
+    private final ForumService forumService;
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
@@ -26,10 +29,16 @@ public class SujetRessource {
         return sujetService.save(sujetDTO);
     }
 
-    @GetMapping("/allsujets/{id}")
-    public List<SujetDTO> getAllSujets(@PathVariable Long id) {
+    @GetMapping("/all-sujets/{id}")
+    public ResponseEntity<?> getAllSujets(@PathVariable Long id) {
         log.debug("REST request to get all Sujets of forum : {}", id);
-        return null;
+        Optional<ForumDTO> forum = forumService.getForumById(id);
+        if (forum.isPresent()) {
+            List<SujetDTO> sujets = sujetService.findSujetByForumId(id);
+            return new ResponseEntity<>(sujets, HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>("Forum not found", HttpStatus.NOT_FOUND);
+        }
     }
 
     @GetMapping("/{id}")

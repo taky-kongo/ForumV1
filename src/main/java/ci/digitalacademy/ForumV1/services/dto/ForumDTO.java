@@ -5,11 +5,11 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class SujetDTO {
+public class ForumDTO {
 
     private Long id;
 
-    private String title;
+    private String name;
 
-    private ForumDTO forum;
+    private String description;
 }
