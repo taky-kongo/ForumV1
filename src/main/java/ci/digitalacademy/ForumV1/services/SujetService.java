@@ -16,4 +16,6 @@ public interface SujetService {
     List<SujetDTO> findAll();
 
     void delete(Long id);
+
+    List<SujetDTO> findSujetByForumId(Long forumId);
 }
