@@ -2,7 +2,9 @@ package ci.digitalacademy.ForumV1.web.ressources;
 
 
 import ci.digitalacademy.ForumV1.services.MessageService;
+import ci.digitalacademy.ForumV1.services.SujetService;
 import ci.digitalacademy.ForumV1.services.dto.MessageDTO;
+import ci.digitalacademy.ForumV1.services.dto.SujetDTO;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -10,6 +12,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @Slf4j
@@ -18,6 +21,7 @@ import java.util.List;
 public class MessageRessource {
 
     private final MessageService messageService;
+    private final SujetService sujetService;
 
     @PostMapping
     public ResponseEntity<MessageDTO> save(@RequestBody MessageDTO messageDTO) {
@@ -25,22 +29,16 @@ public class MessageRessource {
         return new ResponseEntity<>(messageService.save(messageDTO), HttpStatus.CREATED);
     }
 
-    @PutMapping("/{id}")
-    public ResponseEntity<?> update(@PathVariable Long id, @RequestBody MessageDTO messageDTO) {
-        log.debug("REST request to update message : {}", messageDTO);
-        return new ResponseEntity<>(messageService.update(messageDTO, id), HttpStatus.OK);
-    }
-
-    @GetMapping
-    private List<MessageDTO> getAllMessages() {
-        log.debug("REST request to get all messages");
-        return messageService.findAll();
-    }
-
-    @DeleteMapping("/{id}")
-    public void delete(@PathVariable Long id) {
-        log.debug("REST request to delete message : {}", id);
-        messageService.delete(id);
+    @GetMapping("/all-messages/{id}")
+    private ResponseEntity<?> getAllMessages(@PathVariable Long id) {
+        log.debug("REST request to get all messages by sujet id : {}", id);
+        Optional<SujetDTO> sujet = sujetService.findOne(id);
+        if (sujet.isPresent()) {
+            List<MessageDTO> messages = messageService.findMessageBySujetId(id);
+            return new ResponseEntity<>(messages, HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>("Id of sujet not found", HttpStatus.NOT_FOUND);
+        }
     }
 }
 

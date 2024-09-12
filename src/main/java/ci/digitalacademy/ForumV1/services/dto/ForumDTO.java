@@ -1,6 +1,5 @@
 package ci.digitalacademy.ForumV1.services.dto;
 
-
 import lombok.Getter;
 import lombok.Setter;
 

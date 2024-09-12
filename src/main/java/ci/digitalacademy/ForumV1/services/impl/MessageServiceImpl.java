@@ -7,18 +7,15 @@ import ci.digitalacademy.ForumV1.services.dto.MessageDTO;
 import ci.digitalacademy.ForumV1.services.mapper.MessageMapper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.http.HttpStatusCode;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
 
-
 @Service
 @RequiredArgsConstructor
 @Slf4j
 public class MessageServiceImpl implements MessageService {
-
 
     private final MessageRepository messageRepository;
     private final MessageMapper messageMapper;
@@ -37,6 +34,7 @@ public class MessageServiceImpl implements MessageService {
          return findOne(messageDTO.getId()).map(message ->{
              message.setTitle(messageDTO.getTitle());
              message.setBody(messageDTO.getBody());
+             message.setSujet(messageDTO.getSujet());
              return save(message);
          }).orElseThrow(() -> new IllegalArgumentException("not message found with id"+ messageDTO.getId()));
 
@@ -48,6 +46,7 @@ public class MessageServiceImpl implements MessageService {
         return findOne(id).map(message ->{
             message.setTitle(messageDTO.getTitle());
             message.setBody(messageDTO.getBody());
+            message.setSujet(messageDTO.getSujet());
             return save(message);
         }).orElseThrow(() -> new IllegalArgumentException("not message found with id"+ messageDTO.getId()));
 
@@ -57,7 +56,7 @@ public class MessageServiceImpl implements MessageService {
     @Override
     public Optional<MessageDTO> findOne(Long id) {
         log.debug("Request to get Message : {}", id);
-        return messageRepository.findById(id).map(message ->{
+        return messageRepository.findById(id).map(message -> {
             return messageMapper.toDto(message);
         });
     }
@@ -75,6 +74,14 @@ public class MessageServiceImpl implements MessageService {
         log.debug("Request to delete Message : {}", id);
         messageRepository.deleteById(id);
 
+    }
+
+    @Override
+    public List<MessageDTO> findMessageBySujetId(Long sujetId) {
+        log.debug("Request to get Message by sujet id : {}", sujetId);
+        return messageRepository.findMessageBySujetId(sujetId).stream().map(message -> {
+            return messageMapper.toDto(message);
+        }).toList();
     }
 
 }

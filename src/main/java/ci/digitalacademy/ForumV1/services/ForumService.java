@@ -1,8 +1,6 @@
 package ci.digitalacademy.ForumV1.services;
 
-import ci.digitalacademy.ForumV1.models.Forum;
 import ci.digitalacademy.ForumV1.services.dto.ForumDTO;
-import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;

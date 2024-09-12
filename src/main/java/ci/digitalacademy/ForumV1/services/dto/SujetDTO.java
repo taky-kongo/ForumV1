@@ -11,5 +11,5 @@ public class SujetDTO {
 
     private String title;
 
-    //private ForumDTO forum;
+    private ForumDTO forum;
 }

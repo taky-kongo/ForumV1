@@ -1,7 +1,5 @@
 package ci.digitalacademy.ForumV1.web.ressources;
 
-
-import ci.digitalacademy.ForumV1.models.Forum;
 import ci.digitalacademy.ForumV1.services.ForumService;
 import ci.digitalacademy.ForumV1.services.dto.ForumDTO;
 import lombok.RequiredArgsConstructor;

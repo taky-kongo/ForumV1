@@ -14,5 +14,5 @@ public class MessageDTO {
 
     private String body;
 
-
+    private SujetDTO sujet;
 }

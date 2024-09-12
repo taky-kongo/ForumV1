@@ -42,7 +42,6 @@ public class ForumServiceImpl implements ForumService {
 
     @Override
     public Optional<ForumDTO> getForumById(Long id) {
-
         log.debug("Request to get Forum : {}", id);
         // Récupère un forum par son ID, ou lève une exception si non trouvé
         return forumRepository.findById(id).map(forum -> {
