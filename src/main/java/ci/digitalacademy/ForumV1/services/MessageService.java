@@ -11,7 +11,5 @@ public interface MessageService {
 
     Optional<MessageDTO> findOne(Long id);
 
-    List<MessageDTO> findAll();
-
-    List<MessageDTO> findMessageBySujetId(Long sujetId);
+    List<MessageDTO> findMessageBySubjectId(Long subjectId);
 }
