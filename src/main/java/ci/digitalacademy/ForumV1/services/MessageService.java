@@ -9,15 +9,7 @@ public interface MessageService {
 
     MessageDTO save(MessageDTO messageDTO);
 
-    MessageDTO update(MessageDTO messageDTO);
-
-    MessageDTO update(MessageDTO messageDTO, Long id);
-
     Optional<MessageDTO> findOne(Long id);
 
-    List<MessageDTO> findAll();
-
-    void delete(Long id);
-
-    List<MessageDTO> findMessageBySujetId(Long sujetId);
+    List<MessageDTO> findMessageBySubjectId(Long subjectId);
 }
