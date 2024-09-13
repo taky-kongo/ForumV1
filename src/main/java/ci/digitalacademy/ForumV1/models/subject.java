@@ -11,7 +11,7 @@ import lombok.Setter;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-public class Sujet {
+public class subject {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

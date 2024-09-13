@@ -22,5 +22,5 @@ public class Message {
     private String body;
 
     @ManyToOne
-    private Sujet sujet;
+    private subject subject;
 }
