@@ -11,5 +11,7 @@ public class SubjectDTO {
 
     private String title;
 
+    private  String slug;
+
     private ForumDTO forum;
 }

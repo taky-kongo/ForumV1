@@ -1,10 +1,11 @@
 package ci.digitalacademy.ForumV1.services.impl;
 
-import ci.digitalacademy.ForumV1.models.subject;
+import ci.digitalacademy.ForumV1.models.Subject;
 import ci.digitalacademy.ForumV1.repositories.SubjectRepository;
 import ci.digitalacademy.ForumV1.services.SubjectService;
 import ci.digitalacademy.ForumV1.services.dto.SubjectDTO;
 import ci.digitalacademy.ForumV1.services.mapper.SubjectMapper;
+import ci.digitalacademy.ForumV1.utils.SlugifyUtils;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -23,7 +24,7 @@ public class SubjectServiceImpl implements SubjectService {
     @Override
     public SubjectDTO save(SubjectDTO subjectDTO) {
         log.debug("Request to save Subject : {}", subjectDTO);
-        subject subject = subjectMapper.toEntity(subjectDTO);
+        Subject subject = subjectMapper.toEntity(subjectDTO);
         subject = subjectRepository.save(subject);
         return subjectMapper.toDto(subject);
     }
@@ -42,5 +43,21 @@ public class SubjectServiceImpl implements SubjectService {
         return subjectRepository.findSubjectByForumId(forumId).stream().map(subject -> {
             return subjectMapper.toDto(subject);
         }).toList();
+    }
+
+    @Override
+    public SubjectDTO saveSubject(SubjectDTO subjectDTO) {
+        log.debug("Request to save Subject with the slug : {}", subjectDTO);
+        final String slug = SlugifyUtils.generateSlugify(subjectDTO.getTitle());
+        subjectDTO.setSlug(slug);
+        return save(subjectDTO);
+    }
+
+    @Override
+    public Optional<SubjectDTO> findSubjectBySlug(String slug) {
+        log.debug("Request to get Subject by slug : {}", slug);
+        return subjectRepository.findSubjectBySlug(slug).map(subject -> {
+            return subjectMapper.toDto(subject);
+        });
     }
 }

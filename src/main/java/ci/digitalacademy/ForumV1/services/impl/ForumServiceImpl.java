@@ -24,7 +24,7 @@ public class ForumServiceImpl implements ForumService {
 
     @Override
     public List<ForumDTO> findAllForums() {
-
+        log.debug("Request to get all Forums");
         // Retourne la liste de tous les forums
         return forumRepository.findAll().stream().map(forum -> {
             return forumMapper.toDto(forum);
@@ -33,7 +33,7 @@ public class ForumServiceImpl implements ForumService {
 
     @Override
     public ForumDTO saveForum(ForumDTO forumDTO) {
-        log.debug("Saving forum: {}", forumDTO);
+        log.debug("Request to save forum: {}", forumDTO);
         // Enregistrer un nouveau forum
         Forum forum = forumMapper.toEntity(forumDTO);
         forum = forumRepository.save(forum);
