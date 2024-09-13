@@ -1,6 +1,5 @@
 package ci.digitalacademy.ForumV1.web.ressources;
 
-
 import ci.digitalacademy.ForumV1.services.MessageService;
 import ci.digitalacademy.ForumV1.services.SujetService;
 import ci.digitalacademy.ForumV1.services.dto.MessageDTO;
@@ -26,6 +25,8 @@ public class MessageRessource {
     @PostMapping
     public ResponseEntity<MessageDTO> save(@RequestBody MessageDTO messageDTO) {
         log.debug("REST request to save message : {}", messageDTO);
+        Optional<SujetDTO> sujet = sujetService.findOne(messageDTO.getSujet().getId());
+        messageDTO.setSujet(sujet.get());
         return new ResponseEntity<>(messageService.save(messageDTO), HttpStatus.CREATED);
     }
 

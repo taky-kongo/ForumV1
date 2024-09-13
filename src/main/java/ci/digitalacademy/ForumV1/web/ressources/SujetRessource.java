@@ -26,6 +26,8 @@ public class SujetRessource {
     @ResponseStatus(HttpStatus.CREATED)
     public SujetDTO save(@RequestBody SujetDTO sujetDTO) {
         log.debug("REST request to save Sujet : {}", sujetDTO);
+        Optional<ForumDTO> forum = forumService.getForumById(sujetDTO.getForum().getId());
+        sujetDTO.setForum(forum.get());
         return sujetService.save(sujetDTO);
     }
 

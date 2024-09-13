@@ -28,30 +28,6 @@ public class MessageServiceImpl implements MessageService {
         return messageMapper.toDto(message);
     }
 
-    @Override
-    public MessageDTO update(MessageDTO messageDTO) {
-        log.debug("Request to update message: {}", messageDTO);
-         return findOne(messageDTO.getId()).map(message ->{
-             message.setTitle(messageDTO.getTitle());
-             message.setBody(messageDTO.getBody());
-             message.setSujet(messageDTO.getSujet());
-             return save(message);
-         }).orElseThrow(() -> new IllegalArgumentException("not message found with id"+ messageDTO.getId()));
-
-    }
-
-    @Override
-    public MessageDTO update(MessageDTO messageDTO, Long id) {
-        log.debug("Request to update message By id: {}", id);
-        return findOne(id).map(message ->{
-            message.setTitle(messageDTO.getTitle());
-            message.setBody(messageDTO.getBody());
-            message.setSujet(messageDTO.getSujet());
-            return save(message);
-        }).orElseThrow(() -> new IllegalArgumentException("not message found with id"+ messageDTO.getId()));
-
-
-    }
 
     @Override
     public Optional<MessageDTO> findOne(Long id) {
@@ -67,13 +43,6 @@ public class MessageServiceImpl implements MessageService {
         return messageRepository.findAll().stream().map(message -> {
             return messageMapper.toDto(message);
         }).toList();
-    }
-
-    @Override
-    public void delete(Long id) {
-        log.debug("Request to delete Message : {}", id);
-        messageRepository.deleteById(id);
-
     }
 
     @Override

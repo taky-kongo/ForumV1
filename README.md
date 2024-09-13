@@ -1,8 +1,8 @@
 Les détails pour exécuter le programme
 
 Etape 1: Cloner le projet
-    - Se mettre daans le dossier qui va recevoir le projet et ouvrir "git bash".
-    - Ensuite entrer la commande git clone suivi du lien github et appuyer sur entrée.
+    - Se mettre dans le dossier qui va recevoir le projet et ouvrir "git bash".
+    - Ensuite entrer la commande git clone suivi du lien github et appuyer sur entrez.
     - git clone https://github.com/taky-kongo/ForumV1
     - Ouvrir le projet dans intellij
 
