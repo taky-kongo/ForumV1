@@ -9,13 +9,9 @@ public interface SujetService {
 
     SujetDTO save(SujetDTO sujetDTO);
 
-    SujetDTO update(SujetDTO sujetDTO);
-
     Optional<SujetDTO> findOne(Long id);
 
     List<SujetDTO> findAll();
-
-    void delete(Long id);
 
     List<SujetDTO> findSujetByForumId(Long forumId);
 }
