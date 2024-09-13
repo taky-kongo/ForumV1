@@ -25,5 +25,5 @@ public class Message implements Serializable {
     private String body;
 
     @ManyToOne
-    private Sujet sujet;
+    private subject subject;
 }

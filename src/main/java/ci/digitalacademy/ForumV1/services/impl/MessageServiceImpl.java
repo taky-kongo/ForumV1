@@ -28,7 +28,6 @@ public class MessageServiceImpl implements MessageService {
         return messageMapper.toDto(message);
     }
 
-
     @Override
     public Optional<MessageDTO> findOne(Long id) {
         log.debug("Request to get Message : {}", id);
@@ -38,17 +37,9 @@ public class MessageServiceImpl implements MessageService {
     }
 
     @Override
-    public List<MessageDTO> findAll() {
-        log.debug("Request to get all Messages");
-        return messageRepository.findAll().stream().map(message -> {
-            return messageMapper.toDto(message);
-        }).toList();
-    }
-
-    @Override
-    public List<MessageDTO> findMessageBySujetId(Long sujetId) {
-        log.debug("Request to get Message by sujet id : {}", sujetId);
-        return messageRepository.findMessageBySujetId(sujetId).stream().map(message -> {
+    public List<MessageDTO> findMessageBySubjectId(Long subjectId) {
+        log.debug("Request to get Message by subject id : {}", subjectId);
+        return messageRepository.findMessageBySubjectId(subjectId).stream().map(message -> {
             return messageMapper.toDto(message);
         }).toList();
     }
