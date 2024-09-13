@@ -30,7 +30,7 @@ public class SubjectRessource {
         Optional<ForumDTO> forum = forumService.getForumById(subjectDTO.getForum().getId());
         if (forum.isPresent()) {
             subjectDTO.setForum(forum.get());
-            return subjectService.save(subjectDTO);
+            return subjectService.saveSubject(subjectDTO);
         } else {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND);
         }
@@ -52,6 +52,17 @@ public class SubjectRessource {
     public ResponseEntity<?> getSubjectById(@PathVariable Long id) {
         log.debug("REST request to get Subject : {}", id);
         Optional<SubjectDTO> subject = subjectService.findOne(id);
+        if (subject.isPresent()) {
+            return new ResponseEntity<>(subject.get(), HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>("Subject not found", HttpStatus.NOT_FOUND);
+        }
+    }
+
+    @GetMapping("/slug/{slug}")
+    public ResponseEntity<?> getSubjectBySlug(@PathVariable String slug) {
+        log.debug("REST request to get Subject by slug : {}", slug);
+        Optional<SubjectDTO> subject = subjectService.findSubjectBySlug(slug);
         if (subject.isPresent()) {
             return new ResponseEntity<>(subject.get(), HttpStatus.OK);
         } else {
