@@ -20,4 +20,6 @@ public interface ForumService {
 
     Optional<ForumDTO> findForumBySlug(String slug);
 
+    ForumDTO saveForumBySlug(ForumDTO forumDTO);
+
 }

@@ -23,7 +23,7 @@ public class ForumRessource {
     @PostMapping
     public ResponseEntity<ForumDTO> save(@RequestBody ForumDTO forumDTO) {
         log.debug("REST, Request to save forum : {}", forumDTO);
-        return new ResponseEntity<>(forumService.saveForum(forumDTO), HttpStatus.CREATED);
+        return new ResponseEntity<>(forumService.saveForumBySlug(forumDTO), HttpStatus.CREATED);
     }
 
     @GetMapping("/{id}")
