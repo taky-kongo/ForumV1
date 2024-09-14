@@ -22,7 +22,7 @@ public class ForumRessource {
     @PostMapping
     public ResponseEntity<ForumDTO> save(@RequestBody ForumDTO forumDTO) {
         log.debug("REST, Request to save forum : {}", forumDTO);
-        return new ResponseEntity<>(forumService.saveForum(forumDTO), HttpStatus.CREATED);
+        return new ResponseEntity<>(forumService.saveForumWithSlug(forumDTO), HttpStatus.CREATED);
     }
 
     @GetMapping("/{id}")
@@ -40,5 +40,16 @@ public class ForumRessource {
     public List<ForumDTO> getAllForums() {
         log.debug("REST, Request to get all forum");
         return forumService.findAllForums();
+    }
+
+    @GetMapping("/slug/{slug}")
+    public ResponseEntity<?> getForumBySlug(@PathVariable String slug) {
+        log.debug("REST request to get Forum by slug : {}", slug);
+        Optional<ForumDTO> forum = forumService.findForumBySlug(slug);
+        if (forum.isPresent()) {
+            return new ResponseEntity<>(forum.get(), HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>("Forum not found", HttpStatus.NOT_FOUND);
+        }
     }
 }
