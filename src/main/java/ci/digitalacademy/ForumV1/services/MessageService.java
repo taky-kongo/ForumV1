@@ -9,7 +9,9 @@ public interface MessageService {
 
     MessageDTO save(MessageDTO messageDTO);
 
-    Optional<MessageDTO> findOne(Long id);
-
     List<MessageDTO> findMessageBySubjectId(Long subjectId);
+
+    MessageDTO saveMessage(MessageDTO messageDTO);
+
+    Optional<MessageDTO> findMessageBySlug(String slug);
 }
