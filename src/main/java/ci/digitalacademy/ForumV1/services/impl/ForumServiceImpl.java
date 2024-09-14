@@ -4,7 +4,6 @@ import ci.digitalacademy.ForumV1.models.Forum;
 import ci.digitalacademy.ForumV1.repositories.ForumRepository;
 import ci.digitalacademy.ForumV1.services.ForumService;
 import ci.digitalacademy.ForumV1.services.dto.ForumDTO;
-import ci.digitalacademy.ForumV1.services.dto.ForumDTO;
 import ci.digitalacademy.ForumV1.services.mapper.ForumMapper;
 import ci.digitalacademy.ForumV1.utils.SlugifyUtils;
 import lombok.RequiredArgsConstructor;
@@ -52,8 +51,7 @@ public class ForumServiceImpl implements ForumService {
 
     }
 
-    @Override
-    public ForumDTO saveForumBySlug(ForumDTO forumDTO) {
+    public ForumDTO saveForumWithSlug(ForumDTO forumDTO) {
         log.debug("Request to save Forum with the slug : {}", forumDTO);
         final String slug = SlugifyUtils.generateSlugify(forumDTO.getName());
         forumDTO.setSlug(slug);
@@ -61,9 +59,9 @@ public class ForumServiceImpl implements ForumService {
     }
 
     @Override
-    public Optional<ForumDTO> findForumBySlug(String id) {
-        log.debug("Request to get Forum : {}", id);
-        return forumRepository.findForumBySlug(id).map(forum -> {
+    public Optional<ForumDTO> findForumBySlug(String slug) {
+        log.debug("Request to get Forum by slug : {}", slug);
+        return forumRepository.findForumBySlug(slug).map(forum -> {
             return forumMapper.toDto(forum);
         });
     }

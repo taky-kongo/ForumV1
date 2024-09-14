@@ -2,7 +2,6 @@ package ci.digitalacademy.ForumV1.web.ressources;
 
 import ci.digitalacademy.ForumV1.services.ForumService;
 import ci.digitalacademy.ForumV1.services.dto.ForumDTO;
-import ci.digitalacademy.ForumV1.services.dto.SubjectDTO;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -23,7 +22,7 @@ public class ForumRessource {
     @PostMapping
     public ResponseEntity<ForumDTO> save(@RequestBody ForumDTO forumDTO) {
         log.debug("REST, Request to save forum : {}", forumDTO);
-        return new ResponseEntity<>(forumService.saveForumBySlug(forumDTO), HttpStatus.CREATED);
+        return new ResponseEntity<>(forumService.saveForumWithSlug(forumDTO), HttpStatus.CREATED);
     }
 
     @GetMapping("/{id}")
@@ -44,13 +43,13 @@ public class ForumRessource {
     }
 
     @GetMapping("/slug/{slug}")
-    public ResponseEntity<?> getSubjectBySlug(@PathVariable String slug) {
+    public ResponseEntity<?> getForumBySlug(@PathVariable String slug) {
         log.debug("REST request to get Forum by slug : {}", slug);
         Optional<ForumDTO> forum = forumService.findForumBySlug(slug);
         if (forum.isPresent()) {
             return new ResponseEntity<>(forum.get(), HttpStatus.OK);
         } else {
-            return new ResponseEntity<>("Subject not found", HttpStatus.NOT_FOUND);
+            return new ResponseEntity<>("Forum not found", HttpStatus.NOT_FOUND);
         }
     }
 }
