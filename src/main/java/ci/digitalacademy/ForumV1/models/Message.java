@@ -24,6 +24,9 @@ public class Message implements Serializable {
 
     private String body;
 
+    @Column(unique = true)
+    private String slug;
+
     @ManyToOne
     private Subject subject;
 }

@@ -1,6 +1,5 @@
 package ci.digitalacademy.ForumV1.services.dto;
 
-
 import lombok.Getter;
 import lombok.Setter;
 
@@ -13,6 +12,8 @@ public class MessageDTO {
     private String title;
 
     private String body;
+
+    private String slug;
 
     private SubjectDTO subject;
 }

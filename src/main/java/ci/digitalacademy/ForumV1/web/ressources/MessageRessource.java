@@ -24,9 +24,15 @@ public class MessageRessource {
     private final SubjectService subjectService;
 
     @PostMapping
-    public ResponseEntity<MessageDTO> save(@RequestBody MessageDTO messageDTO) {
+    public ResponseEntity<?> save(@RequestBody MessageDTO messageDTO) {
         log.debug("REST request to save message : {}", messageDTO);
-        return new ResponseEntity<>(messageService.save(messageDTO), HttpStatus.CREATED);
+        Optional<SubjectDTO> subject = subjectService.findOne(messageDTO.getSubject().getId());
+        if (subject.isPresent()) {
+            messageDTO.setSubject(subject.get());
+            return new ResponseEntity<>(messageService.saveMessage(messageDTO), HttpStatus.CREATED);
+        } else {
+            return new ResponseEntity<>("Subject not found", HttpStatus.NOT_FOUND);
+        }
     }
 
     @GetMapping("/subjects/{id}")
@@ -38,6 +44,17 @@ public class MessageRessource {
             return new ResponseEntity<>(messages, HttpStatus.OK);
         } else {
             return new ResponseEntity<>("Id of subject not found", HttpStatus.NOT_FOUND);
+        }
+    }
+
+    @GetMapping("/slug/{slug}")
+    public ResponseEntity<?> getMessageBySlug(@PathVariable String slug) {
+        log.debug("REST request to get message by slug : {}", slug);
+        Optional<MessageDTO> message = messageService.findMessageBySlug(slug);
+        if (message.isPresent()) {
+            return new ResponseEntity<>(message.get(), HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>("Message not found", HttpStatus.NOT_FOUND);
         }
     }
 }

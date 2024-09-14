@@ -5,6 +5,7 @@ import ci.digitalacademy.ForumV1.models.Message;
 import ci.digitalacademy.ForumV1.repositories.MessageRepository;
 import ci.digitalacademy.ForumV1.services.dto.MessageDTO;
 import ci.digitalacademy.ForumV1.services.mapper.MessageMapper;
+import ci.digitalacademy.ForumV1.utils.SlugifyUtils;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -29,14 +30,6 @@ public class MessageServiceImpl implements MessageService {
     }
 
     @Override
-    public Optional<MessageDTO> findOne(Long id) {
-        log.debug("Request to get Message : {}", id);
-        return messageRepository.findById(id).map(message -> {
-            return messageMapper.toDto(message);
-        });
-    }
-
-    @Override
     public List<MessageDTO> findMessageBySubjectId(Long subjectId) {
         log.debug("Request to get Message by subject id : {}", subjectId);
         return messageRepository.findMessageBySubjectId(subjectId).stream().map(message -> {
@@ -44,4 +37,19 @@ public class MessageServiceImpl implements MessageService {
         }).toList();
     }
 
+    @Override
+    public MessageDTO saveMessage(MessageDTO messageDTO) {
+        log.debug("Request to save message with slug {}", messageDTO);
+        final String slug = SlugifyUtils.generateSlugify(messageDTO.getTitle());
+        messageDTO.setSlug(slug);
+        return save(messageDTO);
+    }
+
+    @Override
+    public Optional<MessageDTO> findMessageBySlug(String slug) {
+        log.debug("Request to get Message by slug {}", slug);
+        return messageRepository.findMessageBySlug(slug).map(message -> {
+            return messageMapper.toDto(message);
+        });
+    }
 }
