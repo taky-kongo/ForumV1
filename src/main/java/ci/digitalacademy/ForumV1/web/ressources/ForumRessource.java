@@ -2,6 +2,7 @@ package ci.digitalacademy.ForumV1.web.ressources;
 
 import ci.digitalacademy.ForumV1.services.ForumService;
 import ci.digitalacademy.ForumV1.services.dto.ForumDTO;
+import ci.digitalacademy.ForumV1.services.dto.SubjectDTO;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -40,5 +41,16 @@ public class ForumRessource {
     public List<ForumDTO> getAllForums() {
         log.debug("REST, Request to get all forum");
         return forumService.findAllForums();
+    }
+
+    @GetMapping("/slug/{slug}")
+    public ResponseEntity<?> getSubjectBySlug(@PathVariable String slug) {
+        log.debug("REST request to get Forum by slug : {}", slug);
+        Optional<ForumDTO> forum = forumService.findForumBySlug(slug);
+        if (forum.isPresent()) {
+            return new ResponseEntity<>(forum.get(), HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>("Subject not found", HttpStatus.NOT_FOUND);
+        }
     }
 }

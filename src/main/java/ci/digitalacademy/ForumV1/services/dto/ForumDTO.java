@@ -11,5 +11,7 @@ public class ForumDTO {
 
     private String name;
 
+    private  String slug;
+
     private String description;
 }

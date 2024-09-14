@@ -49,4 +49,12 @@ public class ForumServiceImpl implements ForumService {
         });
 
     }
+
+    @Override
+    public Optional<ForumDTO> findForumBySlug(String id) {
+        log.debug("Request to get Forum : {}", id);
+        return forumRepository.findForumBySlug(id).map(forum -> {
+            return forumMapper.toDto(forum);
+        });
+    }
 }

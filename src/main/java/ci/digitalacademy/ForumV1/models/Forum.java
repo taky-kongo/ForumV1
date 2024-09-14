@@ -22,6 +22,9 @@ public class Forum implements Serializable {
     @Column(nullable = false)
     private String name;
 
+    @Column(unique = true)
+    private String slug;
+
     @Column(nullable = false)
     private String description;
 }
